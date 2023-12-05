@@ -1,0 +1,4 @@
+[mysqlservers]
+mysql-cluster1  ansible_ssh_host=10.0.26.101 vm_name=mysql1 ansible_ssh_private_key_file=../.vagrant/machines/mysql1/virtualbox/private_key
+mysql-cluster2  ansible_ssh_host=10.0.26.102 vm_name=mysql2 ansible_ssh_private_key_file=../.vagrant/machines/mysql2/virtualbox/private_key
+mysql-cluster3  ansible_ssh_host=10.0.26.103 vm_name=mysql2 ansible_ssh_private_key_file=../.vagrant/machines/mysql3/virtualbox/private_key

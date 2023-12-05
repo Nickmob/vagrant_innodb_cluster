@@ -1,0 +1,64 @@
+---
+# Installation tasks for Ubuntu
+# https://dev.mysql.com/downloads/repo/apt/
+
+- name: "Install gnupg"
+  apt:
+    name: gnupg2
+    update_cache: yes
+
+- name: Try to specify preference for mysql
+  shell: echo mysql-apt-config mysql-apt-config/select-server select mysql-8.0 | debconf-set-selections
+
+- name: "Install Oracle repo package"
+  apt:
+    deb: "https://repo.mysql.com//mysql-apt-config_0.8.28-1_all.deb"
+
+- name: "Update apt cache"
+  apt:
+    update_cache: yes
+
+- name: "Install Mysql server and MySQL shell packages and dependencies"
+  apt:
+    name:
+      - mysql-server
+      - mysql-shell
+    state: "present"
+
+- name: "Install python-is-python3 (Ubuntu >= Focal/20.04)"
+  apt:
+    name: "python-is-python3"
+  when:
+    - ansible_distribution_version is version_compare('20.04', '>=')
+
+- debug:
+    msg: "ansible_python_interpreter major version: {{ ansible_python.version.major }}"
+
+- name: "Install package dependencies for ansible MySQL modules (python 2)"
+  apt:
+    name: "python-mysqldb"
+  when:
+    - ansible_python.version.major == 2     # version is a number, do not quote
+
+- name: "Install package dependencies for ansible MySQL modules (python 3)"
+  apt:
+    name: 
+      - "python3-pymysql"
+      - "python3-mysqldb"
+  when:
+    - ansible_python.version.major == 3     # version is a number, do not quote
+
+- name: "Install mc, and nano"
+  apt:
+    name:
+      - nano
+      - mc
+    update_cache: yes
+
+- name: "Adjust permissions of datadir"
+  file:
+    path: "{{ mysql_datadir }}"
+    owner: "mysql"
+    group: "mysql"
+    mode: 0700
+    state: "directory"
