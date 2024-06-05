@@ -39,6 +39,7 @@
     password: "{{ mysql_root_password }}"
     check_implicit_admin: yes
     state: present
+    priv: '*.*:ALL,GRANT'
     login_unix_socket: "{% if ansible_os_family in ['RedHat', 'Rocky'] %}/var/lib/mysql/mysql.sock{% else %}/var/run/mysqld/mysqld.sock{% endif %}"
 
   with_items:

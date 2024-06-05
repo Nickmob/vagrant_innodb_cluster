@@ -18,11 +18,12 @@
   apt:
     update_cache: yes
 
-- name: "Install Mysql server and MySQL shell packages and dependencies"
+- name: "Install MySQL server, MySQL Router and MySQL shell packages and dependencies"
   apt:
     name:
       - mysql-server
       - mysql-shell
+      - mysql-router
     state: "present"
 
 - name: "Install python-is-python3 (Ubuntu >= Focal/20.04)"

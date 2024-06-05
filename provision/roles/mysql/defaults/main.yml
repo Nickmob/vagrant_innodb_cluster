@@ -54,7 +54,7 @@ mysql_users: []
 install_rpm_repositories: "true"
 
 # To disable log_bin in percona >=8, enabled by default
-mysql_disable_log_bin: "true"
+mysql_disable_log_bin: "false"
 
 # Default Auth Plugin
 # used in templates when Percona Server >= 5.7
