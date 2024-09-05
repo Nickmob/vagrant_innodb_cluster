@@ -1,13 +1,13 @@
 ---
 
 - name: "Update the my.cnf"
-  template: "src=etc_mysql_my.cnf.j2 dest=/etc/mysql/my.cnf owner=root mode=0644"
+  ansible.builtin.template: "src=etc_mysql_my.cnf.j2 dest=/etc/mysql/my.cnf owner=root mode=0644"
   register: "config_file"
   notify:
     - "Restart mysql"
 
 - name: "Ensure that mysql is running and enabled"
-  service:
+  ansible.builtin.service:
     name: "mysql"
     state: "started"
     enabled: "yes"
@@ -17,7 +17,7 @@
 # and other settings. So better restart when the my.cnf file changes
 # Restart when my.cnf has changed and it has not been restarted by the above task
 - name: "Restart mysql to apply changes done in my.cnf file"
-  service:
+  ansible.builtin.service:
     name: "mysql"
     state: "restarted"
   when:
@@ -27,5 +27,14 @@
 
 # Update /etc/hosts to connect to other nodes using DNS
 - name: "Update the /etc/hosts"
-  template: "src=hosts.j2 dest=/etc/hosts owner=root mode=0644"
+  ansible.builtin.template: "src=hosts.j2 dest=/etc/hosts owner=root mode=0644"
   register: "config_file"
+
+# Copy JS script for faster cluster bootstrap
+- name: Copy the same JS bootstrap script
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../setup_innodb_cluster.js"
+    dest: /home/vagrant/setup_innodb_cluster.js
+    owner: vagrant
+    group: vagrant
+    mode: u=rw,g=rw,o=r
