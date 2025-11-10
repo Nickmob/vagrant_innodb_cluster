@@ -29,12 +29,3 @@
 - name: "Update the /etc/hosts"
   ansible.builtin.template: "src=hosts.j2 dest=/etc/hosts owner=root mode=0644"
   register: "config_file"
-
-# Copy JS script for faster cluster bootstrap
-- name: Copy the same JS bootstrap script
-  ansible.builtin.copy:
-    src: "{{ playbook_dir }}/../setup_innodb_cluster.js"
-    dest: /home/vagrant/setup_innodb_cluster.js
-    owner: vagrant
-    group: vagrant
-    mode: u=rw,g=rw,o=r

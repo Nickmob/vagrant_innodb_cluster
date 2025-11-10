@@ -12,7 +12,7 @@
 
 - name: "Install Oracle repo package"
   package:
-    deb: "https://repo.mysql.com/mysql-apt-config_0.8.29-1_all.deb"
+    deb: "https://repo.mysql.com/mysql-apt-config_0.8.36-1_all.deb"
 
 - name: "Update apt cache"
   apt:
